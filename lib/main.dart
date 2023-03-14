@@ -46,8 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
   static final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
   static final CollectionReference _collectionReference = _firebaseFirestore.collection('animals');
 
-  final Stream<QuerySnapshot> _animals = FirebaseFirestore.instance.collection('animals').snapshots();
-
+  Stream<QuerySnapshot> _animals = FirebaseFirestore.instance.collection('animals').snapshots();
 
 
   @override
@@ -61,6 +60,17 @@ class _MyHomePageState extends State<MyHomePage> {
             onSelected: (String menu){
               setState(() {
                 _selectedMenu = menu;
+                if(_selectedMenu.startsWith('犬')){
+                  _animals = FirebaseFirestore.instance.collection('animals').where('品種', isEqualTo: '犬').snapshots();
+                }else if(_selectedMenu.startsWith('猫')){
+                  _animals = FirebaseFirestore.instance.collection('animals').where('品種', isEqualTo: '猫').snapshots();
+                }else if(_selectedMenu.contains('昇順')){
+                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('age').snapshots();
+                }else if(_selectedMenu.contains('降順')){
+                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('age', descending: true).snapshots();
+                }else{
+                  _animals = FirebaseFirestore.instance.collection('animals').snapshots();
+                }
               });
             },
             itemBuilder: (BuildContext context){
