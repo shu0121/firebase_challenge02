@@ -43,8 +43,8 @@ class _MyHomePageState extends State<MyHomePage> {
   var _selectedMenu = '';
   var _popupMenus = ['犬のみ', '猫のみ', '年齢：昇順', '年齢：降順'];
 
-  static final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  static final CollectionReference _collectionReference = _firebaseFirestore.collection('animals');
+  // static final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
+  // static final CollectionReference _collectionReference = _firebaseFirestore.collection('animals');
 
   Stream<QuerySnapshot> _animals = FirebaseFirestore.instance.collection('animals').snapshots();
 
@@ -61,13 +61,13 @@ class _MyHomePageState extends State<MyHomePage> {
               setState(() {
                 _selectedMenu = menu;
                 if(_selectedMenu.startsWith('犬')){
-                  _animals = FirebaseFirestore.instance.collection('animals').where('品種', isEqualTo: '犬').snapshots();
+                  _animals = FirebaseFirestore.instance.collection('animals').where('種類', isEqualTo: '犬').snapshots();
                 }else if(_selectedMenu.startsWith('猫')){
-                  _animals = FirebaseFirestore.instance.collection('animals').where('品種', isEqualTo: '猫').snapshots();
+                  _animals = FirebaseFirestore.instance.collection('animals').where('種類', isEqualTo: '猫').snapshots();
                 }else if(_selectedMenu.contains('昇順')){
-                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('age').snapshots();
+                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('年齢').snapshots();
                 }else if(_selectedMenu.contains('降順')){
-                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('age', descending: true).snapshots();
+                  _animals = FirebaseFirestore.instance.collection('animals').orderBy('年齢', descending: true).snapshots();
                 }else{
                   _animals = FirebaseFirestore.instance.collection('animals').snapshots();
                 }
